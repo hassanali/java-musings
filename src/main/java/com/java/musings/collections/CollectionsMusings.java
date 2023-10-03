@@ -6,6 +6,7 @@ import com.java.musings.comparators.DeveloperRankingComparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -58,11 +59,37 @@ public class CollectionsMusings {
         System.out.println("After sorting: " + developerList);
     }
 
+
+    private static void comparatorsWithLambdas() {
+        System.out.println("\n\nSort with lambdas by id");
+
+        System.out.println("Before sorting: " + developerList);
+
+        Collections.sort(developerList, (Developer developer1, Developer developer2) -> Integer.compare(developer1.getId(), developer2.getId()));
+
+        System.out.println("After sorting: " + developerList);
+    }
+
+
+    private static void comparatorsWithComparingStaticMethod() {
+        System.out.println("\n\nSort with Comparator.comparing...() by client rating");
+
+        System.out.println("Before sorting: " + developerList);
+
+        Collections.sort(developerList, Comparator.comparingInt(Developer::getClientRating));
+
+        System.out.println("After sorting: " + developerList);
+    }
+
     public static void main(String[] args) {
         sortWithComparable();
 
         sortWithInternalRatingComparator();
 
         sortWithClientRatingComparator();
+
+        comparatorsWithLambdas();
+
+        comparatorsWithComparingStaticMethod();
     }
 }
