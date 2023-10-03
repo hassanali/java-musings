@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 
+import java.util.Objects;
+
 /**
  * @author Hassan Ali
  * @since 3rd October
@@ -16,9 +18,6 @@ public class Developer implements Comparable<Developer> {
     private int clientRating;
 
     private int internalRating;
-
-    public Developer() { }
-
 
     public Developer(int id, String name, String department, int internalRating, int clientRating) {
         this.id = id;
@@ -88,4 +87,15 @@ public class Developer implements Comparable<Developer> {
         return gson.toJson(JsonParser.parseString(developer));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Developer developer)) return false;
+        return getId() == developer.getId() && getClientRating() == developer.getClientRating() && getInternalRating() == developer.getInternalRating() && getName().equals(developer.getName()) && getDepartment().equals(developer.getDepartment());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getDepartment(), getClientRating(), getInternalRating());
+    }
 }
