@@ -139,4 +139,21 @@ public class CollectionsSortingJava8Plus {
         assertEquals(list.get(0), new GymUser(4, "Bob", 39, 104, 1, 1800, 500));
     }
 
+
+    @Test
+    public void collectionsSortingWithJava8Lambda_with_Comparator_comparing_multi_conditions_composition() {
+
+        List<GymUser> list = new ArrayList<>();
+        list.add(new GymUser(1, "Richard", 32, 99, 10, 2000, 300));
+        list.add(new GymUser(2, "Pen Li", 20, 70, 9, 3000, 800));
+        list.add(new GymUser(3, "Rana", 34, 110, 9, 2400, 450));
+        list.add(new GymUser(4, "Bob", 39, 104, 1, 1800, 500));
+        list.add(new GymUser(5, "LaLi", 18, 85, 7, 1700, 600));
+        list.add(new GymUser(6, "LaLi", 19, 90, 9, 1000, 690));
+
+        Collections.sort(list, Comparator.comparing(GymUser::getName).thenComparing(GymUser::getAge));
+
+        assertEquals(list.get(0), new GymUser(4, "Bob", 39, 104, 1, 1800, 500));
+    }
+
 }
