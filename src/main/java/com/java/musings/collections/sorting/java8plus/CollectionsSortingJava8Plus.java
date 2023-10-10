@@ -227,6 +227,23 @@ public class CollectionsSortingJava8Plus {
     }
 
     @Test
+    public void collectionsSortingWithJava8StreamAPI_sorted_uses_Comparator_reversed_another_style() {
+
+        List<GymUser> list = new ArrayList<>();
+        list.add(new GymUser(1, "Richard", 32, 99, 10, 2000, 300));
+        list.add(new GymUser(2, "Pen Li", 20, 70, 9, 3000, 800));
+        list.add(new GymUser(3, "Rana", 34, 110, 9, 2400, 450));
+        list.add(new GymUser(4, "Bob", 39, 104, 1, 1800, 500));
+        list.add(new GymUser(5, "LaLi", 18, 85, 7, 1700, 600));
+        list.add(new GymUser(6, "LaLi", 19, 90, 9, 1000, 690));
+
+
+        list = list.stream().sorted(Comparator.comparing(GymUser::getName, Comparator.reverseOrder())).collect(Collectors.toList());
+
+        assertEquals(list.get(0), new GymUser(1, "Richard", 32, 99, 10, 2000, 300));
+    }
+
+    @Test
     public void collectionsSortingWithJava8StreamAPI_sorted_uses_Comparator_comparing() {
 
         List<GymUser> list = new ArrayList<>();
@@ -242,5 +259,42 @@ public class CollectionsSortingJava8Plus {
 
         assertEquals(list.get(0), new GymUser(4, "Bob", 39, 104, 1, 1800, 500));
     }
+
+
+    @Test
+    public void collectionsSortingWithJava8StreamAPI_sorted_uses_Comparator_comparing_null_last() {
+
+        List<GymUser> list = new ArrayList<>();
+        list.add(new GymUser(1, "Richard", 32, 99, 10, 2000, 300));
+        list.add(new GymUser(2, "Pen Li", 20, 70, 9, 3000, 800));
+        list.add(new GymUser(3, "Rana", 34, 110, 9, 2400, 450));
+        list.add(new GymUser(4, "Bob", 39, 104, 1, 1800, 500));
+        list.add(new GymUser(5, "LaLi", 18, 85, 7, 1700, 600));
+        list.add(null);
+
+
+        list = list.stream().sorted(Comparator.nullsLast(Comparator.comparing(GymUser::getName))).collect(Collectors.toList());
+
+        assertEquals(list.get(0), new GymUser(4, "Bob", 39, 104, 1, 1800, 500));
+    }
+
+
+    @Test
+    public void collectionsSortingWithJava8StreamAPI_sorted_uses_Comparator_comparing_null_first() {
+
+        List<GymUser> list = new ArrayList<>();
+        list.add(new GymUser(1, "Richard", 32, 99, 10, 2000, 300));
+        list.add(new GymUser(2, "Pen Li", 20, 70, 9, 3000, 800));
+        list.add(new GymUser(3, "Rana", 34, 110, 9, 2400, 450));
+        list.add(new GymUser(4, "Bob", 39, 104, 1, 1800, 500));
+        list.add(new GymUser(5, "LaLi", 18, 85, 7, 1700, 600));
+        list.add(null);
+
+
+        list = list.stream().sorted(Comparator.nullsFirst(Comparator.comparing(GymUser::getName))).collect(Collectors.toList());
+
+        assertEquals(list.get(1), new GymUser(4, "Bob", 39, 104, 1, 1800, 500));
+    }
+
 
 }
