@@ -110,10 +110,33 @@ public class CollectionsSortingJava8Plus {
         list.add(new GymUser(4, "Bob", 39, 104, 1, 1800, 500));
         list.add(new GymUser(5, "LaLi", 18, 85, 7, 1700, 600));
 
-        Collections.sort(list, Comparator.comparing(GymUser::getName));
         list.sort(Comparator.comparing(GymUser::getName).reversed());
 
         assertEquals(list.get(0), new GymUser(1, "Richard", 32, 99, 10, 2000, 300));
+    }
+
+
+    @Test
+    public void collectionsSortingWithJava8Lambda_with_Comparator_comparing_multi_conditions() {
+
+        List<GymUser> list = new ArrayList<>();
+        list.add(new GymUser(1, "Richard", 32, 99, 10, 2000, 300));
+        list.add(new GymUser(2, "Pen Li", 20, 70, 9, 3000, 800));
+        list.add(new GymUser(3, "Rana", 34, 110, 9, 2400, 450));
+        list.add(new GymUser(4, "Bob", 39, 104, 1, 1800, 500));
+        list.add(new GymUser(5, "LaLi", 18, 85, 7, 1700, 600));
+        list.add(new GymUser(6, "LaLi", 19, 90, 9, 1000, 690));
+
+        Collections.sort(list, (user1, user2) -> {
+            if (user1.getName().equals(user2.getName())) {
+                return Integer.compare(user1.getAge(), user2.getAge());
+            }
+            else {
+                return user1.getName().compareTo(user2.getName());
+            }
+        });
+
+        assertEquals(list.get(0), new GymUser(4, "Bob", 39, 104, 1, 1800, 500));
     }
 
 }
