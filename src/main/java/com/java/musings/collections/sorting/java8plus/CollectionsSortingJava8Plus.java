@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Hassan Ali
@@ -294,6 +295,46 @@ public class CollectionsSortingJava8Plus {
         list = list.stream().sorted(Comparator.nullsFirst(Comparator.comparing(GymUser::getName))).collect(Collectors.toList());
 
         assertEquals(list.get(1), new GymUser(4, "Bob", 39, 104, 1, 1800, 500));
+    }
+
+
+
+    // primitive Array sorting
+
+    @Test
+    public void primitiveArraySorting() {
+
+        int[] unsorted = new int[] {9, 1, 3, 5, 4, 99, 88, 0, 22, 1857};
+        int[] sorted = new int[] {0, 1, 3, 4, 5, 9, 22, 88, 99, 1857};
+
+
+        Arrays.sort(unsorted);
+
+        assertTrue(Arrays.equals(unsorted, sorted));
+    }
+
+    @Test
+    public void primitiveArraySorting_with_Range() {
+
+        int[] unsorted = new int[] {9, 1, 3, 5, 4, 99, 88, 0, 22, 1857};
+        int[] sortedRanged = new int[] {9, 1, 3, 4, 5, 88, 99, 0, 22, 1857};
+
+
+        Arrays.sort(unsorted, 2, 7);
+
+        assertTrue(Arrays.equals(unsorted, sortedRanged));
+    }
+
+    @Test
+    public void primitiveArraySorting_with_Range_ParallelSort() {
+
+        int[] unsorted = new int[] {9, 1, 3, 5, 4, 99, 88, 0, 22, 1857};
+        int[] sortedRanged = new int[] {9, 1, 3, 4, 5, 88, 99, 0, 22, 1857};
+
+
+        Arrays.parallelSort(unsorted, 2, 7);
+
+        assertTrue(Arrays.equals(unsorted, sortedRanged));
     }
 
 
