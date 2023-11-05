@@ -1,13 +1,12 @@
 package com.java.musings.collections.sorting.java8plus.lambdas;
 
+import com.java.musings.beans.GymUser;
 import com.java.musings.collections.sorting.java8plus.functionalinterfaces.MySimpleFunctionalInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.*;
 
 /**
  * @author Hassan Ali
@@ -44,6 +43,25 @@ public class Lambdas {
         }
     }
 
+    private void useSupplier(Supplier<String> supplier) {
+        System.out.println(supplier.get());
+    }
+
+
+    private void useUnaryOperator(UnaryOperator<GymUser> unaryOperator, GymUser gymUser) {
+        unaryOperator.apply(gymUser);
+    }
+
+    private void useBinaryOperator(BinaryOperator<GymUser> binaryOperator, GymUser gymUser1, GymUser gymUser2) {
+        GymUser apply = binaryOperator.apply(gymUser1, gymUser2);
+        System.out.println(apply);
+    }
+
+
+    private void useBiPredicate(BiPredicate<GymUser, GymUser> biPredicate, GymUser gymUser1, GymUser gymUser2) {
+        System.out.println(biPredicate.test(gymUser1, gymUser2));
+    }
+
 
     public static void main(String[] args) {
 
@@ -61,6 +79,30 @@ public class Lambdas {
 
         lambdas.useFunction((a) -> a.length(), p -> System.out.println(p));
         lambdas.useFunction((a) -> a.length() + 10, p -> System.out.println(p));
+
+        lambdas.useSupplier(() -> "This is a sample supplier lambda");
+
+        GymUser user = new GymUser(34, "Hassan", 34, 98, 500, 2000, 700);
+        lambdas.useUnaryOperator((arg) -> {
+            arg.setAge(35);
+            System.out.println(arg);
+            return arg;
+        }, user );
+
+
+        GymUser user2 = new GymUser(34, "Ali", 35, 90, 600, 2000, 700);
+        lambdas.useBinaryOperator((arg1, arg2) -> {
+            if (arg1.getCaloriesBurntDaily() > arg2.getCaloriesBurntDaily()) {
+                return arg1;
+            }
+            else {
+                return arg2;
+            }
+        }, user, user2);
+
+
+        lambdas.useBiPredicate((arg1, arg2) -> arg1.getName().length() > arg2.getName().length(), user, user2);
+        lambdas.useBiPredicate((arg1, arg2) -> arg1.getWeight() > arg2.getWeight(), user, user2);
 
     }
 }
