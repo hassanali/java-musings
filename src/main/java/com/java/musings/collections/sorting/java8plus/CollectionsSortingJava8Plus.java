@@ -338,4 +338,102 @@ public class CollectionsSortingJava8Plus {
     }
 
 
+    // some classical and basic examples
+
+    // sorting a List
+    @Test
+    public void listSorting_Collections_dot_sort() {
+
+        List<Integer> unsorted = new ArrayList<>();
+        unsorted.add(33);
+        unsorted.add(1);
+        unsorted.add(43);
+        unsorted.add(55);
+
+        Collections.sort(unsorted);
+
+        assertEquals(1, unsorted.get(0));
+    }
+
+    // sorting a set
+    @Test
+    public void sorting_a_Set_by_Collections_dot_sort() {
+        Set<Integer> intSet = new LinkedHashSet<>(Arrays.asList(33, 1, 43, 55));
+        Set<Integer> descIntSet = new LinkedHashSet<>(Arrays.asList(55, 43, 33, 1));
+
+        List<Integer> list = new ArrayList<>(intSet);
+        Collections.sort(list, Comparator.reverseOrder());
+
+        intSet = new LinkedHashSet<>(list);
+
+        assertTrue(Arrays.equals(intSet.toArray(), descIntSet.toArray()));
+    }
+
+    @Test
+    public void sorting_a_Set_by_TreeSet_Asc() {
+        Set<Integer> intSet = new LinkedHashSet<>(Arrays.asList(33, 1, 43, 55));
+        Set<Integer> AscIntSet = new LinkedHashSet<>(Arrays.asList(1, 33, 43, 55));
+
+       TreeSet<Integer> treeSet = new TreeSet<>();
+       treeSet.addAll(intSet);
+       intSet = treeSet;
+
+        assertTrue(Arrays.equals(intSet.toArray(), AscIntSet.toArray()));
+    }
+
+    @Test
+    public void sorting_a_Set_by_Streams_Asc() {
+        Set<Integer> intSet = new LinkedHashSet<>(Arrays.asList(33, 1, 43, 55));
+        Set<Integer> AscIntSet = new LinkedHashSet<>(Arrays.asList(1, 33, 43, 55));
+
+
+        intSet = intSet.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new));
+
+        assertTrue(Arrays.equals(intSet.toArray(), AscIntSet.toArray()));
+    }
+
+
+    // sorting a Map
+
+    @Test
+    public void sorting_Map_by_keys() {
+        Map<Integer, String> map = new HashMap<>();
+        map.put(44, "Roxen");
+        map.put(10, "Rembrandt");
+        map.put(23, "Smiths");
+        map.put(45, "Solomon");
+        map.put(18, "David");
+
+        Set<Integer> intKeys = map.keySet();
+        intKeys = intKeys.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new));
+
+        LinkedHashMap<Integer, String> sortedMap = map.entrySet().stream().sorted(Map.Entry.comparingByKey()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
+        assertTrue(Arrays.equals(intKeys.toArray(), sortedMap.keySet().toArray()));
+
+
+    }
+
+
+    @Test
+    public void sorting_Map_by_values() {
+        Map<Integer, String> map = new HashMap<>();
+        map.put(44, "Roxen");
+        map.put(10, "Rembrandt");
+        map.put(23, "Smiths");
+        map.put(45, "Solomon");
+        map.put(18, "David");
+
+        Collection<String> values = map.values();
+        values = values.stream().sorted().collect(Collectors.toList());
+
+        LinkedHashMap<Integer, String> sortedMap = map.entrySet().stream().sorted(Map.Entry.comparingByValue()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
+        assertTrue(Arrays.equals(values.toArray(), sortedMap.keySet().toArray()));
+
+
+    }
+
+
+
 }
